@@ -9,25 +9,29 @@ template <typename T>
 class Trajectory {
      
     public:
-        Trajectory();
+        Trajectory(){
+
+        }
 
         void push(const T& rhs){
             trajectory.push_back(rhs);
         }
 
-        void insert(const T& rhs,std::vector<T>::iterator position){
-            trajectory.insert(position,rhs);
+       
+
+        void insert(const T& rhs,std::size_t position){
+            trajectory.insert(trajectory.begin() + position,rhs);
         }
 
-        void remove(std::vector<T>::iterator rhs){
-            trajectory.erase(rhs);
+        void remove(std::size_t position){
+            trajectory.erase(trajectory.begin() + position);
         }
 
         std::size_t size(){
             return trajectory.size();
         }
 
-        T operator[](std::size_t position){
+        T operator[](std::size_t position) const{
             return trajectory[position];
         }
     private:

@@ -6,7 +6,7 @@
  **/
 class Line{
     public:
-        Line(Point& u_,Point& v_):u{u_},v{v_}{
+        Line(Point u_,Point v_):u{u_},v{v_}{
             A = v.y - u.y;
             B = u.x - v.x;
             C = v.x * u.y - u.x * v.y;
