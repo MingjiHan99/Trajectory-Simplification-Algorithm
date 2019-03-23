@@ -2,7 +2,7 @@
 #include "../inc/trajectory.hpp"
 #include "../inc/dp.hpp"
 
-int main(){
+int main(int argc,char *argv[]){
 
     std::cout << "Testing..." << std::endl;
     DP dp{1.0};
