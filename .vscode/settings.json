@@ -29,6 +29,7 @@
         "iosfwd": "cpp",
         "iostream": "cpp",
         "limits": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "cstdarg": "cpp"
     }
 }
