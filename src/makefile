@@ -1,4 +1,4 @@
 CC=g++
-CLFAG=-Wall -std=c++11
+
 prog:main.cpp
-	$(CC) main.cpp $(CFLAG) -o prog
+	$(CC) main.cpp -std=c++11 -o prog

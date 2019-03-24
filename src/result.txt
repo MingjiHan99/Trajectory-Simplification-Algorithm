@@ -1,0 +1,3 @@
+Error Bound: 1m
+Average Compression Ratio: 54.7102%
+Running time 0.609375s

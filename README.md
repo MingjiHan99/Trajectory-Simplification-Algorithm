@@ -24,13 +24,16 @@ chmod 777 taxi_dataset.sh
 ./taxi_dataset.sh
 ```
 
-#### Generate the Exeutable File and Get Result
+#### Generate the Executable File and Get Result
 
 ```
 cd src
 make
-./prog
+./prog error_bound
 ```
+Note: error_bound means the error boundary(meters)
+You can set error boundary when you run the program
+Example: ./prog 10.0
 
 
 
