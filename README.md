@@ -38,4 +38,5 @@ Size means the number of trajectory the program will compress.
 Example: ./prog 10.0 100  
 This means the program will compress 100 trajectories with error bound 10 meters.
 
-
+You will get result.txt in src folder after the program is done.  
+It records the average compress ratio and running time of program.  
