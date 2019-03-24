@@ -1,7 +1,7 @@
 # Trajectory-Compression-Algorithm
 
 ### Overview
-A research project on trajectory compression. We will implement three trajectory simplication algorithms (DP,FBQS,OPERB) in this repository.
+This is a research project on trajectory compression. We will implement three trajectory simplication algorithms (DP,FBQS,OPERB) in this repository.
 
 ### Prerequisite
 + python3
@@ -12,7 +12,7 @@ A research project on trajectory compression. We will implement three trajectory
 ### Test Douglas-Peucker algorithm on Taxi dataset
 
 #### About the dataset
-The taxi dataset on http://mashuai.buaa.edu.cn/traj.html include 100 trajectories collected by sensors on taxi. A trajectory has 39,100 data points on average. The size of the dataset is 36.3M
+The taxi dataset on http://mashuai.buaa.edu.cn/traj.html includes 100 trajectories collected by sensors on taxi. A trajectory has 39,100 data points on average. The size of the dataset is 36.3M
 
 #### Get the Repository
 ```
@@ -39,4 +39,4 @@ Example: ./prog 10.0 100
 This means the program will compress 100 trajectories with error bound 10 meters.
 
 You will get result.txt in src folder after the program is done.  
-It records the average compress ratio and running time of program.  
+It includes the average compress ratio and running time of program.  
