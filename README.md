@@ -32,9 +32,9 @@ cd src
 make
 ./prog error_bound size
 ```
-Note: error_bound means the error boundary(meters)
-You can set error boundary when you run the program
-Size means the number of trajectory the program will compress
+Note: error_bound means the error boundary(meters).
+You can set error boundary when you run the program.
+Size means the number of trajectory the program will compress.
 Example: ./prog 10.0 100
 This means the program will compress 100 trajectories with error bound 10 meters.
 
