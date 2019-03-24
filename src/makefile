@@ -1,3 +1,4 @@
+CC=g++
 
 prog:main.cpp
-	g++ main.cpp -std=c++11 -o prog
+	$(CC) main.cpp -std=c++11 -o prog
