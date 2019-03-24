@@ -2,6 +2,7 @@
 #define POINT_HPP
 #include <cmath>
 // x,y is 2d coordinate calculated by Mercator Projection
+// https://en.wikipedia.org/wiki/Mercator_projection
 const double RADIUS = 6371393;
 
 class Point{
