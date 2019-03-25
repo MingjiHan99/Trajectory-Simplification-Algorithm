@@ -35,10 +35,10 @@ int main(int argc,char *argv[]){
         std::cout << "Trajectory size:" << traj->size() << std::endl;
 
         auto result = dp.compress(traj,0,traj->size() - 1);
-        temp_rate = (double) (traj->size() - result->size())/ traj->size();
+        temp_rate = (double) (traj->size() - result->size() - 1)/ traj->size();
         averge_rate += temp_rate;
 
-        std::cout << "Compressed trajectory size:" << result->size() << std::endl;
+        std::cout << "Compressed trajectory size:" << result->size() + 1 << std::endl;
         std::cout << "Compression rate:" << temp_rate << std::endl;
         
         delete traj;
