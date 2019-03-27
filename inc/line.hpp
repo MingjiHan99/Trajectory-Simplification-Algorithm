@@ -15,6 +15,9 @@ class Line{
         double calculate_distance(const Point& rhs){
             return fabs( A * rhs.x + B * rhs.y + C) / sqrt( A * A + B * B );
         }
+        double length(){
+            return 2333;
+        }
 
     private:
         Point u,v;
