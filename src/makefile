@@ -1,4 +1,9 @@
 CC=g++
 
-prog:test.cpp
-	$(CC) test.cpp -std=c++11 -o prog
+prog:main.cpp
+	$(CC) main.cpp -std=c++11 -o prog
+
+.PHONY:clean
+
+clean:
+	rm prog

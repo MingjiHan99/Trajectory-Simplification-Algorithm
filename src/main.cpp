@@ -9,6 +9,7 @@
 
 
 int main(int argc,char *argv[]){
+    
     if(argc < 3){
         return 0;
     }
@@ -19,8 +20,7 @@ int main(int argc,char *argv[]){
 
     double tx,ty,tt;
     double averge_rate,temp_rate;
-    
-    std::cout << "OK?" << std::endl;
+  
 
     double start_time = clock();
 

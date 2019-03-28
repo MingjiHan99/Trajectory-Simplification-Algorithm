@@ -33,7 +33,7 @@ class Line{
 
 class FitLine{
     public:
-        FitLine(Point s_):s{s_},j{0},theta{0},A{0},B{0},C{0}{
+        FitLine(Point s_):s{s_},j{0},theta{0},A{0},B{0},C{0},len{0}{
             
         }
         //calculate the distance from a point to the line
@@ -50,21 +50,41 @@ class FitLine{
                 return -1.0;
             }
         }
+        void update_line_parmeters(){
+            A = y - s.y;
+            B = s.x - x;
+            C = x * s.y - s.x * y;
+        }
         // fit new line
         void fit(const Point& rhs,double bound){
+            
             Line l{s,rhs};
-            j = ceil( l.length() * 2 / bound - 0.5);
+       
             if( l.length() - this->length()  < bound / 4){
-                return ;
+   
             }
-            else if( l.length() - this->length()  < bound / 4 && fabs(this->length()) < 1e-2){
+            else if( l.length() - this->length()  > bound / 4 && is_first()){
+    
+                j = ceil( l.length() * 2 / bound - 0.5);
                 this->len = j * bound / 2;
                 this->theta = l.angle();
+                x = s.x + this->len * cos(this->theta);
+                y = s.y + this->len * sin(this->theta);
+                update_line_parmeters();
             }
             else{
+            
+                j = ceil( l.length() * 2 / bound - 0.5);
                 this->len = j * bound / 2;
+             
                 this->theta += f(l) * asin(this->calculate_distance(rhs) / (j * bound * 2))/ j;
+                x = s.x + this->len * cos(this->theta);
+                y = s.y + this->len * sin(this->theta);
+                update_line_parmeters();
             }
+            
+            
+           
         }
         double length(){
             return this->len;
@@ -72,6 +92,10 @@ class FitLine{
 
         double angle(){
             return this->theta;
+        }
+
+        bool is_first(){
+            return j == 0;
         }
 
     private:

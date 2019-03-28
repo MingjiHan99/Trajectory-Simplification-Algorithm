@@ -22,34 +22,43 @@ public:
         }
         else{
             //intialization
+          
             int s_index = 0,e_index = 0;
 
 
             FitLine initial_line{(*traj)[s_index]};
             //get first active point
 
-            auto first_point = get_active_point(traj,0,0,initial_line);
-        
-            while (first_point.first != -1){
+            auto next_point  = get_active_point(traj,0,0,initial_line);
+            
+            //done
+
+            while (next_point.first != -1){
+                  
                   
                   s_index = e_index;
                   
                   FitLine fit_line{(*traj)[s_index]};
-                
-                  fit_line.fit((*traj)[first_point.first],bound);
                   
-                  auto next_point = get_active_point(traj,s_index,first_point.first,fit_line);
+                  fit_line.fit((*traj)[next_point.first],bound);
+               
+                  next_point = get_active_point(traj,s_index,next_point.first,fit_line);
                   //next_point  -- a index
-
-                  while( next_point.first != -1 && next_point.second){
-
-                      fit_line.fit((*traj)[next_point.first],bound);
-
+                  if(next_point.second == false && next_point.second != -1){
                       e_index = next_point.first;
-
-                      next_point = get_active_point(traj,s_index,first_point.first,fit_line);
                   }
 
+                  while(next_point.first != -1 && next_point.second == true){
+               
+                      fit_line.fit((*traj)[next_point.first],bound);
+                  
+                      e_index = next_point.first;
+                      
+                      next_point = get_active_point(traj,s_index,next_point.first,fit_line);
+                
+
+                  }
+                
                   res->push(Line{(*traj)[s_index],(*traj)[e_index]});
                 
             }
@@ -65,26 +74,27 @@ public:
         
         int i = a_index + 1;                                                                                                                                                                                                                                                                                                                                                                                            
         bool flag = true;
-        Line R{(*traj)[s_index],(*traj)[a_index]};
+        Line R{(*traj)[s_index],(*traj)[i]};
 
-        while ( i - s_index <= magic_number && i < traj->size() && R.length() - L.length() <= bound / 4){
-            
+        while ( i - s_index <= magic_number && i < traj->size() && R.length() - L.length() < bound / 4){
+       
             if( L.calculate_distance((*traj)[i]) > bound / 2 && R.calculate_distance((*traj)[i]) > bound){
                 flag = false;
                 break;
             }
-            R = Line{(*traj)[s_index],(*traj)[a_index]};
             i++;
+            R = Line{(*traj)[s_index],(*traj)[i]};
+           
         }
 
-        if(L.calculate_distance((*traj)[i]) > bound / 2 && fabs(L.length()) > 1e-2 ){
+        if(L.calculate_distance((*traj)[i]) > bound / 2 && !L.is_first()){
             flag = false;
         }
     
         if(i == traj->size() ){
             i = -1;
         }
-
+      
         return {i,flag};
 
     }
