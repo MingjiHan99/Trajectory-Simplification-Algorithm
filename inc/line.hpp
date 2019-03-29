@@ -20,9 +20,12 @@ class Line{
         }
         double angle() const{
             double ang = acos( (v.x - u.x) / length());
-            if( v.y < u.y) 
-                return -ang;
-            return -ang;
+            // as the range of acos is [0,PI]
+            // we need to check the angle on our own
+            if( v.y > u.y) 
+                return ang;
+            else 
+                return 2 * acos(-1) - ang;
         }
 
 
