@@ -3,7 +3,7 @@
 #include <ctime>
 #include <string>
 #include "../inc/trajectory.hpp"
-#include "../inc/dp.hpp"
+#include "../inc/one_pass.hpp"
 #include "../inc/operb.hpp"
 #pragma comment(linker, "/STACK:1024000000,1024000000") 
 
@@ -16,7 +16,7 @@ int main(int argc,char *argv[]){
 
     double error_bound = std::stod(argv[1]);
     int size = std::stoi(argv[2]);
-    OPERB dp{error_bound};
+    OPERB one_pass{error_bound};
 
     double tx,ty,tt;
     double averge_rate,temp_rate;
@@ -37,7 +37,7 @@ int main(int argc,char *argv[]){
         std::cout << "Running on No." << i << " trajectory..." << std::endl;
         std::cout << "Trajectory size:" << traj->size() << std::endl;
 
-        auto result = dp.compress(traj);
+        auto result = one_pass.compress(traj);
         temp_rate = (double) (traj->size() - result->size() - 1)/ traj->size();
         averge_rate += temp_rate;
 
