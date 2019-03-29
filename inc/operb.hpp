@@ -43,11 +43,13 @@ public:
                   fit_line.fit((*traj)[next_point.first],bound);
                
                   next_point = get_active_point(traj,s_index,next_point.first,fit_line);
-                  //next_point  -- a index
+                  //next_point  -- acitve point index
                   if(next_point.second == false && next_point.second != -1){
                       e_index = next_point.first;
                   }
-
+                  // next_point.second is flag
+                  // when flag is false but active point is not null
+                  // we need to create new segments
                   while(next_point.first != -1 && next_point.second == true){
                
                       fit_line.fit((*traj)[next_point.first],bound);
