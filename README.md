@@ -8,6 +8,7 @@ This is a research project on trajectory compression. We will implement three tr
 + unrar
 + g++
 + make
++ Ubuntu 16.04
 
 ### Test Douglas-Peucker algorithm on Taxi dataset
 
@@ -35,8 +36,9 @@ make
 Note: error_bound means the error boundary(meters).  
 You can set error boundary when you run the program.  
 Size means the number of trajectory the program will compress.  
-Example: ./prog 10.0 100  
-This means the program will compress 100 trajectories with error bound 10 meters.
-
+Example: ./prog 10.0 100 operb
+This means the program will compress 100 trajectories with error bound 10 meters by OPERB algorithm.  
+You can also enter prameter "dp" to use DP algorithm.
 You will get result.txt in src folder after the program is done.  
-It includes the average compress ratio and running time of program.  
+It includes the average compress ratio and running time of program. 
+
