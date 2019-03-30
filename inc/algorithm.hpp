@@ -18,6 +18,7 @@ public:
         this->bound = bound;
     }
 
+    virtual Trajectory<Line>* compress(const Trajectory<Point>* traj) = 0;
 
 };
 

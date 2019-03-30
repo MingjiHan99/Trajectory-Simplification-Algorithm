@@ -9,7 +9,7 @@ public:
 
     }
 
-    Trajectory<Line>* compress(Trajectory<Point>* traj){
+    Trajectory<Line>* compress(const Trajectory<Point>* traj){
 
         Trajectory<Line>* res = new Trajectory<Line>;
         //when trajectory size is too small, we return result directly
@@ -72,7 +72,7 @@ public:
     }
 
 
-    std::pair<int,bool> get_active_point(Trajectory<Point>* traj, int s_index,int a_index, FitLine L){
+    std::pair<int,bool> get_active_point(const Trajectory<Point>* traj, int s_index,int a_index, FitLine L){
         
         int i = a_index + 1;                                                                                                                                                                                                                                                                                                                                                                                            
         bool flag = true;

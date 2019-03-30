@@ -9,8 +9,12 @@ class DP:public Algorithm{
         DP(double bound_):Algorithm{bound_}{
 
         }    
+
+        Trajectory<Line>* compress(const Trajectory<Point>* traj){
+            return dp(traj,0,(int)traj->size());
+        }
         
-        Trajectory<Line>* compress(const Trajectory<Point>* t,int left,int right){
+        Trajectory<Line>* dp(const Trajectory<Point>* t,int left,int right){
             Trajectory<Line>* traj = new Trajectory<Line>();
             int length = right - left + 1;
 
@@ -44,8 +48,8 @@ class DP:public Algorithm{
                     traj->push(line);
                 }
                 else{
-                    Trajectory<Line>* left_traj = compress(t,left,max_index);
-                    Trajectory<Line>* right_traj = compress(t,max_index,right);
+                    Trajectory<Line>* left_traj = dp(t,left,max_index);
+                    Trajectory<Line>* right_traj = dp(t,max_index,right);
 
                     for(int i = 0 ; i < left_traj->size() ; i++){
                         traj->push( (*left_traj)[i]);
