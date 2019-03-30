@@ -27,7 +27,7 @@ class Trajectory {
             trajectory.erase(trajectory.begin() + position);
         }
 
-        std::size_t size(){
+        std::size_t size() const{
             return trajectory.size();
         }
 
