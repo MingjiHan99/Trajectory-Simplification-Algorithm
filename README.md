@@ -31,7 +31,7 @@ chmod 777 taxi_dataset.sh
 ```
 cd src
 make
-./prog error_bound size
+./prog error_bound size algorithm_type
 ```
 Note: error_bound means the error boundary(meters).  
 You can set error boundary when you run the program.  
