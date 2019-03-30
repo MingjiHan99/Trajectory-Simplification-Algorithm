@@ -46,7 +46,10 @@ class FitLine{
 
         double f(const Line& rhs){
             double differ = rhs.angle() - this->theta;
-            if( 0 < differ && differ < acos(-1) / 2.0 || -acos(-1) < differ && differ < -acos(-1) / 2.0 ){
+            if( 0 < differ && differ < acos(-1) / 2.0 
+                || -acos(-1) < differ && differ < -acos(-1) / 2.0 
+                || -2.0 * acos(-1) < differ && differ < -acos(-1) * 3.0 / 2.0 
+                ||  acos(-1) < differ && differ < acos(-1) * 3.0/ 2.0 ){
                 return 1.0;
             }
             else{
