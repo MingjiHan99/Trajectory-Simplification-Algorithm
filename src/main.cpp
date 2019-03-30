@@ -4,18 +4,30 @@
 #include <string>
 #include "../inc/trajectory.hpp"
 #include "../inc/operb.hpp"
+#include "../inc/algorithm.hpp"
+#include "../inc/dp.hpp"
 #pragma comment(linker, "/STACK:1024000000,1024000000") 
 
-
+std::string algorithm_type[2] = {"dp","operb"};
 int main(int argc,char *argv[]){
     
-    if(argc < 3){
+    if(argc < 4){
         return 0;
     }
 
     double error_bound = std::stod(argv[1]);
     int size = std::stoi(argv[2]);
-    OPERB one_pass{error_bound};
+
+    Algorithm* pta = nullptr;
+  
+    if(argv[3] == algorithm_type[0] ){
+        pta = new DP{error_bound};
+     
+    }
+    else if(argv[3] == algorithm_type[1]){
+         pta = new OPERB{error_bound};
+    }
+    
 
     double tx,ty,tt;
     double averge_rate,temp_rate;
@@ -36,7 +48,7 @@ int main(int argc,char *argv[]){
         std::cout << "Running on No." << i << " trajectory..." << std::endl;
         std::cout << "Trajectory size:" << traj->size() << std::endl;
 
-        auto result = one_pass.compress(traj);
+        auto result = pta->compress(traj);
         temp_rate = (double) (traj->size() - result->size() - 1)/ traj->size();
         averge_rate += temp_rate;
 
