@@ -132,7 +132,7 @@ public:
             int s_index = 0,e_index = 0;
             Line R_pre,R_ano;
             bool R_pre_null = true,R_ano_null = true; // to identify whether they are null or not.
-
+            int R_ano_s = 0,R_ano_e = 0;
             FitLine initial_line{(*traj)[s_index]};
             //get first active point
 
@@ -164,15 +164,18 @@ public:
                       e_index = next_point.first;
                       
                       next_point = get_active_point(traj,s_index,next_point.first,fit_line);
-                      
-                      if(next_point.first != -1 && R_ano_null == true 
+                   }
+
+                   if(next_point.first != -1 && R_ano_null == true 
                         && s_index + 1 == e_index){
                             R_ano = Line{(*traj)[s_index],(*traj)[e_index]};
+                            R_ano_s = s_index;
+                            R_ano_e = e_index;
                             R_ano_null = false;
                         }
 
                       if(next_point.first != -1 &&  R_ano_null == false
-                         && true){
+                         && R_ano_s != s_index && R_ano_e != e_index){
                             bool is_patch = false;
                             Line R_a,R_b;
                             if(R_pre_null != true){
@@ -215,8 +218,6 @@ public:
                         res->push(R_pre);
                   if(R_ano_null == false)
                         res->push(R_ano);
-         
-            }
 
 
         }
