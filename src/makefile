@@ -1,7 +1,7 @@
 CC=g++
 
 prog:main.cpp
-	$(CC) main.cpp -std=c++11 -o prog
+	$(CC) -g main.cpp -std=c++11 -o prog 
 
 .PHONY:clean
 
