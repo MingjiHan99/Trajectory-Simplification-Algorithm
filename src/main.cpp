@@ -8,7 +8,7 @@
 #include "../inc/dp.hpp"
 #pragma comment(linker, "/STACK:1024000000,1024000000") 
 
-std::string algorithm_type[2] = {"dp","operb"};
+std::string algorithm_type[3] = {"dp","operb","operba"};
 int main(int argc,char *argv[]){
     
     if(argc < 4){
@@ -26,6 +26,9 @@ int main(int argc,char *argv[]){
     }
     else if(argv[3] == algorithm_type[1]){
          pta = new OPERB{error_bound};
+    }
+    else if(argv[3] == algorithm_type[2]){
+        pta = new OPERBA{error_bound};
     }
     
 

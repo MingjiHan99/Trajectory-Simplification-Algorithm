@@ -38,7 +38,7 @@ You can set error boundary when you run the program.
 Size means the number of trajectory the program will compress.  
 Example: ./prog 10.0 100 operb
 This means the program will compress 100 trajectories with error bound 10 meters by OPERB algorithm.  
-You can also enter prameter "dp" to use DP algorithm.
+You can also enter prameter "dp" or "operba" to use DP or OPERB-A algorithm.
 You will get result.txt in src folder after the program is done.  
 It includes the average compress ratio and running time of program. 
 
