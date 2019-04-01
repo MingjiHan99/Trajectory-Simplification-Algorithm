@@ -9,6 +9,15 @@ class Point{
     public:
         double longitude,latitude,t;
         double x,y;
+    Point(){
+
+    }
+    Point(double x_,double y_):x{x_},y{y_}{
+
+        longitude = x / (2 * acos(-1) * RADIUS) * 360;
+        latitude = ((atan(exp(y / RADIUS))) - acos(-1) / 4 ) / acos(-1) * 360;
+       
+    }
     Point(double longitude_,double latitude_,double t_)
         :longitude{longitude_},latitude{latitude_},t{t_}{
 

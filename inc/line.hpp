@@ -6,13 +6,16 @@
  **/
 class Line{
     public:
+        Line(){
+
+        }
         Line(Point u_,Point v_):u{u_},v{v_}{
             A = v.y - u.y;
             B = u.x - v.x;
             C = v.x * u.y - u.x * v.y;
         }
         //calculate the distance from a point to the line
-        double calculate_distance(const Point& rhs){
+        double calculate_distance(const Point& rhs) const{
             return fabs( A * rhs.x + B * rhs.y + C) / sqrt( A * A + B * B );
         }
         double length() const{
@@ -27,7 +30,16 @@ class Line{
             else 
                 return 2 * acos(-1) - ang;
         }
-
+        Point intersection(const Line& rhs){
+            double D = A * rhs.B - rhs.A * B;
+            return Point{(B * rhs.C - rhs.B * C) / D,(rhs.A * C - A * rhs.C) / D};
+        }
+        Point start_point(){
+            return u;
+        }
+        Point end_point(){
+            return v;
+        }
 
     private:
         Point u,v;
@@ -40,11 +52,11 @@ class FitLine{
             
         }
         //calculate the distance from a point to the line
-        double calculate_distance(const Point& rhs){
+        double calculate_distance(const Point& rhs) const{
             return fabs( A * rhs.x + B * rhs.y + C) / sqrt( A * A + B * B );
         }
 
-        double f(const Line& rhs){
+        double f(const Line& rhs) const{
             double differ = rhs.angle() - this->theta;
             if( 0 < differ && differ < acos(-1) / 2.0 
                 || -acos(-1) < differ && differ < -acos(-1) / 2.0 
