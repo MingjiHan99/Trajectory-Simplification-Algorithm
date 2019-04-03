@@ -44,3 +44,6 @@ It includes the average compress ratio and running time of program.
 
 
 
+### Result
+
+![image](https://github.com/Hannnnnn/Trajectory-Compression-Algorithm/tree/master/image/res1.png)
