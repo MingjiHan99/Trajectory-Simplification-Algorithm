@@ -17,7 +17,7 @@ int main(int argc,char *argv[]){
 
     double error_bound = std::stod(argv[1]);
     int size = std::stoi(argv[2]);
-
+    int total_point = 0;
     Algorithm* pta = nullptr;
   
     if(argv[3] == algorithm_type[0] ){
@@ -47,6 +47,7 @@ int main(int argc,char *argv[]){
         while(scanf("%lf %lf %lf",&tt,&ty,&tx) == 3){
             traj->push(Point{tx,ty,tt});
         }
+        total_point += traj->size();
 
         std::cout << "Running on No." << i << " trajectory..." << std::endl;
         std::cout << "Trajectory size:" << traj->size() << std::endl;
@@ -67,6 +68,7 @@ int main(int argc,char *argv[]){
 
     averge_rate /= size;
     freopen("result.txt","w",stdout);
+    std::cout << "Total points:" << total_point << std::endl;
     std::cout << "Error Bound: " << error_bound << "m" << std::endl;
     std::cout << "Average Compression Ratio: " << averge_rate * 100 << "\%" << std::endl;
     std::cout << "Running time " << (double)(end_time - start_time) / CLOCKS_PER_SEC << "s"<< std::endl;
