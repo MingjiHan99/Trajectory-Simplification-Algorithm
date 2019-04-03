@@ -42,5 +42,7 @@ You can also enter prameter "dp" or "operba" to use DP or OPERB-A algorithm.
 You will get result.txt in src folder after the program is done.  
 It includes the average compress ratio and running time of program. 
 
+### Result
 
-
+![image](https://github.com/Hannnnnn/Trajectory-Compression-Algorithm/blob/dev/image/res1.png)
+![image](https://github.com/Hannnnnn/Trajectory-Compression-Algorithm/blob/dev/image/res2.png)
