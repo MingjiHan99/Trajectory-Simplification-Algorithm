@@ -10,33 +10,52 @@ public:
     }    
 
     Trajectory<Line>* compress(const Trajectory<Point>* traj) {
-        Trajectory<Line>* res;
+        Trajectory<Line>* res = new Trajectory<Line>();
         if(traj->size() == 1){
             return res;
         }
         else if(traj->size() == 2){
             res->push(Line{(*traj)[0],(*traj)[1]});
+            return res;
         }
         else if(traj->size() > 2){
             int start = 0;
             int end = 1;
             std::vector<int> buffer;
             while(end < traj->size()){
+                
+            //    std::cout << start << " " << end << std::endl;
                 if( (*traj)[start].distance((*traj)[end]) < bound || buffer.size() == 0){
+               //     std::cout << "Case 1" << std::endl;
                     buffer.push_back(end);
                 } 
                 else{
+              //      std::cout << "Case 2" << std::endl;
                     auto d = get_bounds(buffer,start,end,traj);
+               //     std::cout << "Get bound successfully" << std::endl;
+
                     if(d.second < bound){
+             //           std::cout << "Case 2:1" << std::endl;
                         buffer.push_back(end);
                     }
                     else if(d.first > bound){
-                        res->push(Line{(*traj)[start],(*traj)[end-1]});
+                  //      std::cout << "Case 2:2" << std::endl;
+                        
+                        Point stp = (*traj)[start];
+                    
+                        Point enp = (*traj)[end-1];
+                
+                        res->push(Line{stp,enp});
+                       
+                //        std::cout << "Push successfully" << std::endl;
                         start = end - 1;
                         buffer.clear();
+                 //       std::cout << "Clear successfully" << std::endl;
+                        
                         continue;
                     } 
                     else{
+                //        std::cout << "Case 2:3" << std::endl;
                         Line l{(*traj)[start],(*traj)[end]};
                         double dis = l.calculate_distance((*traj)[end]);
                         if( dis < bound ){
@@ -50,7 +69,9 @@ public:
                         }
                     }
                 }
+
                 end++;
+              //  std::cout << "Loop over" << std::endl;
             }
 
         }
@@ -130,20 +151,52 @@ private:
 
                 double  d_corner_max = -1,d_corner_min = std::numeric_limits<double>::max();
                 
-                for(int i = 0 ; i < 4; i++){
-                    d_corner_max = std::max(d_corner_max,l.calculate_distance(c[i]));
-                    d_corner_min = std::min(d_corner_min,l.calculate_distance(c[i]));
+                for(int j = 0 ; j < 4; j++){
+                    d_corner_max = std::max(d_corner_max,l.calculate_distance(c[j]));
+                    d_corner_min = std::min(d_corner_min,l.calculate_distance(c[j]));
                 }
                 Point l1 = min_ang_line.end_point(),u1 = max_ang_line.start_point();
                 Point l2,u2;
                 //depends on corrdinate
-                
+                switch(i){
+                    case 0: 
+                        l2 = Point{min_ang_line.get_x(c[3].y),c[3].y};break;
+                    case 1: 
+                        l2 = Point{c[2].x,min_ang_line.get_y(c[2].x)};break;
+                    case 2: 
+                        l2 = Point{min_ang_line.get_x(c[1].x),c[1].y};break;
+                    case 3: 
+                        l2 = Point{c[3].x,min_ang_line.get_y(c[3].x)};break;
+                }
 
+                switch(i){
+                    case 0: 
+                        u2 = Point{c[3].x,max_ang_line.get_y(c[3].x)};break;
+                    case 1: 
+                        u2 = Point{max_ang_line.get_x(c[3].y),c[3].y};break;
+                    case 2: 
+                        u2 = Point{c[2].x,max_ang_line.get_y(c[2].x)};break;
+                    case 3: 
+                        u2 = Point{max_ang_line.get_x(c[1].y),c[1].y};break;
+                }
+
+                double max_u = std::max(l.calculate_distance(u1),l.calculate_distance(u2));
+                double min_u = std::min(l.calculate_distance(u1),l.calculate_distance(u2));
+
+                double max_l = std::max(l.calculate_distance(l1),l.calculate_distance(l2));
+                double min_l = std::min(l.calculate_distance(l1),l.calculate_distance(l2));
+
+                double max_corner = std::max(d_corner_max,d_corner_min);
+
+
+                d_max = std::max(d_max,std::max(max_u,max_l));
+                d_min = std::max(d_min,std::min(min_u,min_l));
+                d_min = std::max(d_min,max_corner);
             }
         }
 
 
-        return {0.0,0.0};
+        return {d_min,d_max};
     }
 };
 
