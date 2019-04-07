@@ -27,7 +27,7 @@ class Point{
     }
 
     double distance(const Point& rhs){
-        return sqrt( (x - rhs.x) * (x - rhs.x) + (y - rhs.y) * (y - rhs.y))''
+        return sqrt( (x - rhs.x) * (x - rhs.x) + (y - rhs.y) * (y - rhs.y));
     }
 };
 

@@ -6,9 +6,10 @@
 #include "../inc/operb.hpp"
 #include "../inc/algorithm.hpp"
 #include "../inc/dp.hpp"
+#include "../inc/fbqs.hpp"
 #pragma comment(linker, "/STACK:1024000000,1024000000") 
 
-std::string algorithm_type[3] = {"dp","operb","operba"};
+std::string algorithm_type[4] = {"dp","operb","operba","fbqs"};
 int main(int argc,char *argv[]){
     
     if(argc < 4){
@@ -29,6 +30,9 @@ int main(int argc,char *argv[]){
     }
     else if(argv[3] == algorithm_type[2]){
         pta = new OPERBA{error_bound};
+    }
+    else if(argv[3] == algorithm_type[3]){
+        pta = new FBQS{error_bound};
     }
     
 

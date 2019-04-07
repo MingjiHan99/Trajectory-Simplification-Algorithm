@@ -40,6 +40,12 @@ class Line{
         Point end_point(){
             return v;
         }
+        double get_y(double x){
+            return - (A * x + C) / B;
+        }
+        double get_x(double y){
+            return - (B * y + C) / A;
+        }
 
     private:
         Point u,v;
