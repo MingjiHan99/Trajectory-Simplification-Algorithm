@@ -11,6 +11,7 @@ public:
 
     Trajectory<Line>* compress(const Trajectory<Point>* traj) {
         Trajectory<Line>* res = new Trajectory<Line>();
+        
         if(traj->size() == 1){
             return res;
         }
