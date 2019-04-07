@@ -25,6 +25,10 @@ class Point{
             double theta = acos(-1.0) / 4.0 + (latitude / 2.0) / 360.0 * 2.0 * acos(-1.0);          
             y = RADIUS * log(tan(theta));
     }
+
+    double distance(const Point& rhs){
+        return sqrt( (x - rhs.x) * (x - rhs.x) + (y - rhs.y) * (y - rhs.y))''
+    }
 };
 
 
