@@ -3,9 +3,9 @@
 #include "algorithm.hpp"
 #include "line.hpp"
 #include <limits>
-class FBQS:public Algorithm{
+class BQS:public Algorithm{
 public:
-    FBQS(double bound_):Algorithm{bound_}{
+    BQS(double bound_):Algorithm{bound_}{
 
     }    
 
