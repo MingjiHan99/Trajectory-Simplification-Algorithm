@@ -9,7 +9,7 @@
 #include "../inc/fbqs.hpp"
 #pragma comment(linker, "/STACK:1024000000,1024000000") 
 
-std::string algorithm_type[4] = {"dp","operb","operba","bqs"};
+std::string algorithm_type[4] = {"dp","operb","operba","fbqs"};
 int main(int argc,char *argv[]){
     
     if(argc < 4){
@@ -32,7 +32,7 @@ int main(int argc,char *argv[]){
         pta = new OPERBA{error_bound};
     }
     else if(argv[3] == algorithm_type[3]){
-        pta = new BQS{error_bound};
+        pta = new FBQS{error_bound};
     }
     
 

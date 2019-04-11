@@ -3,13 +3,14 @@
 #include "algorithm.hpp"
 #include "line.hpp"
 #include <limits>
-class BQS:public Algorithm{
+class FBQS:public Algorithm{
 public:
-    BQS(double bound_):Algorithm{bound_}{
+    FBQS(double bound_):Algorithm{bound_}{
 
     }    
 
     Trajectory<Line>* compress(const Trajectory<Point>* traj) {
+        int buffer_start = 1 ,buffer_end = 1;
         Trajectory<Line>* res = new Trajectory<Line>();
         
         if(traj->size() == 1){
@@ -24,55 +25,46 @@ public:
             int end = 1;
             std::vector<int> buffer;
             while(end < traj->size()){
-                
-            //    std::cout << start << " " << end << std::endl;
-                if( (*traj)[start].distance((*traj)[end]) < bound || buffer.size() == 0){
-               //     std::cout << "Case 1" << std::endl;
-                    buffer.push_back(end);
+
+                if( (*traj)[start].distance((*traj)[end]) < bound){
+                    buffer_start = buffer_end = end;
                 } 
                 else{
-              //      std::cout << "Case 2" << std::endl;
-                    auto d = get_bounds(buffer,start,end,traj);
-               //     std::cout << "Get bound successfully" << std::endl;
-
+         
+                    auto d = get_bounds(buffer_start,buffer_end,start,end,traj);
+         
                     if(d.second < bound){
-             //           std::cout << "Case 2:1" << std::endl;
-                        buffer.push_back(end);
+             
+                        buffer_end++;
+             
                     }
                     else if(d.first > bound){
-                  //      std::cout << "Case 2:2" << std::endl;
                         
                         Point stp = (*traj)[start];
                     
                         Point enp = (*traj)[end-1];
                 
                         res->push(Line{stp,enp});
-                       
-                //        std::cout << "Push successfully" << std::endl;
+                
                         start = end - 1;
-                        buffer.clear();
-                 //       std::cout << "Clear successfully" << std::endl;
+                        buffer_start = buffer_end = end;
                         
                         continue;
                     } 
                     else{
-                //        std::cout << "Case 2:3" << std::endl;
-                        Line l{(*traj)[start],(*traj)[end]};
-                        double dis = l.calculate_distance((*traj)[end]);
-                        if( dis < bound ){
-                            buffer.push_back(end);
-                        }
-                        else{
-                            res->push(Line{(*traj)[start],(*traj)[end-1]});
-                            start = end - 1;
-                            buffer.clear();
-                            continue;
-                        }
+               
+                        res->push(Line{(*traj)[start],(*traj)[end-1]});
+                        start = end - 1;
+                        buffer_start = buffer_end = end;
+                //            buffer.clear();
+                        continue;
+                        
+
                     }
                 }
 
                 end++;
-              //  std::cout << "Loop over" << std::endl;
+    
             }
 
         }
@@ -80,27 +72,29 @@ public:
         
     }
 private:
-    std::pair<double,double> get_bounds(std::vector<int>& buffer,int start,int end,const Trajectory<Point>* traj){
+    std::pair<double,double> get_bounds(int buffer_start,int buffer_end,
+                                int start,int end,const Trajectory<Point>* traj){
         std::vector<int> quarter[4];
         Point st = (*traj)[start],en = (*traj)[end];
         Line l{st,en};
         
 
-        for(auto item:buffer){
-            Point buf_pt = (*traj)[item];
+        for(int i = buffer_start ; i < buffer_end; i++){
+            Point buf_pt = (*traj)[i];
             if( buf_pt.x > st.x && buf_pt.y > st.y ){
-                quarter[0].push_back(item);
+                quarter[0].push_back(i);
             }
             else if( buf_pt.x < st.x && buf_pt.y > st.y){
-                quarter[1].push_back(item);
+                quarter[1].push_back(i);
             }
             else if( buf_pt.x < st.x && buf_pt.y < st.y){
-                quarter[2].push_back(item);
+                quarter[2].push_back(i);
             }
             else if( buf_pt.x > st.x && buf_pt.y < st.y){
-                quarter[3].push_back(item);
+                quarter[3].push_back(i);
             }       
         }
+      
 
         double d_min = std::numeric_limits<double>::max();
         double d_max = -1;
