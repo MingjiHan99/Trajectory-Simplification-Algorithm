@@ -1,6 +1,6 @@
 #ifndef ALGORITHM_HPP
 #define ALGORITHM_HPP
-
+#include "trajectory.hpp"
 class Algorithm{
 protected:
     //error boundary (meters)
