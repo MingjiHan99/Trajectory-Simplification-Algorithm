@@ -5,11 +5,18 @@
 #include <limits>
 class FBQS:public Algorithm{
 public:
-    FBQS(double bound_):Algorithm{bound_}{
-
+    FBQS(double bound_):Algorithm{bound_},need_new_qurant{true}{
+        for(int i = 0 ; i < 4 ; i++){
+            quarter[i] = nullptr;
+        }
     }    
 
     Trajectory<Line>* compress(const Trajectory<Point>* traj) {
+        need_new_qurant = true;
+         first[0] = first[1] = first[2] = first[3] = true;
+        for(int i = 0 ; i < 4 ; i++){
+            quarter[i] = new int[traj->size()+1];
+        }
         int buffer_start = 1 ,buffer_end = 1;
         Trajectory<Line>* res = new Trajectory<Line>();
         
@@ -24,6 +31,7 @@ public:
             int start = 0;
             int end = 1;
             std::vector<int> buffer;
+            buffer_start = buffer_end = end;
             while(end < traj->size()){
 
                 if( (*traj)[start].distance((*traj)[end]) < bound){
@@ -32,14 +40,14 @@ public:
                 else{
          
                     auto d = get_bounds(buffer_start,buffer_end,start,end,traj);
-         
+           //         std::cout << "bound get " << d.first <<" " << d.second<< std::endl;
                     if(d.second < bound){
-             
+             //           std::cout << "Case 1" << std::endl;
                         buffer_end++;
              
                     }
                     else if(d.first > bound){
-                        
+                 //       std::cout << "Case 2" << std::endl;
                         Point stp = (*traj)[start];
                     
                         Point enp = (*traj)[end-1];
@@ -48,15 +56,17 @@ public:
                 
                         start = end - 1;
                         buffer_start = buffer_end = end;
-                        
+                        need_new_qurant = true;
+                        first[0] = first[1] = first[2] = first[3] = true;
                         continue;
                     } 
                     else{
-               
+                      //  std::cout << "Case 3" << std::endl;
                         res->push(Line{(*traj)[start],(*traj)[end-1]});
                         start = end - 1;
                         buffer_start = buffer_end = end;
-                //            buffer.clear();
+                        need_new_qurant = true;
+                         first[0] = first[1] = first[2] = first[3] = true;
                         continue;
                         
 
@@ -64,72 +74,109 @@ public:
                 }
 
                 end++;
-    
             }
 
+        }
+        for(int i = 0 ; i < 4 ; i++){
+            delete[] quarter[i];
         }
         return res;
         
     }
 private:
+    int *quarter[4];
+    bool first[4];  
+    bool need_new_qurant;
     std::pair<double,double> get_bounds(int buffer_start,int buffer_end,
                                 int start,int end,const Trajectory<Point>* traj){
-        std::vector<int> quarter[4];
+        
+        
         Point st = (*traj)[start],en = (*traj)[end];
         Line l{st,en};
         
-
-        for(int i = buffer_start ; i < buffer_end; i++){
-            Point buf_pt = (*traj)[i];
+        int i = buffer_end - 1;
+        if(need_new_qurant){
+            i = buffer_start;
+            for(int i = 0 ; i < 4; i++){
+                quarter[i][0] = 0;
+            }
+            
+        }
+     //   std::cout << "Buffer size:" << buffer_end - buffer_start + 1 << std::endl;
+        int pos = 0;
+        for(; i < buffer_end; i++){
+       //     std::cout << "start loop : " << i-1 << std::endl;
+            Point buf_pt = (*traj)[i-1];
+      //      std::cout << buf_pt.x << " " << buf_pt.y << " " << st.x  << " "  << st.y << std::endl;
             if( buf_pt.x > st.x && buf_pt.y > st.y ){
-                quarter[0].push_back(i);
+                quarter[0][++quarter[0][0]] = i;
+                pos = 0;
+         //       std::cout << "Get pos" << pos << std::endl;
             }
             else if( buf_pt.x < st.x && buf_pt.y > st.y){
-                quarter[1].push_back(i);
+                quarter[1][++quarter[1][0]] = i;
+                pos = 1;
+           //     std::cout << "Get pos" << pos << std::endl;
             }
             else if( buf_pt.x < st.x && buf_pt.y < st.y){
-                quarter[2].push_back(i);
+                quarter[2][++quarter[2][0]] = i;
+                pos = 2;
+             //   std::cout << "Get pos" << pos << std::endl;
             }
             else if( buf_pt.x > st.x && buf_pt.y < st.y){
-                quarter[3].push_back(i);
-            }       
-        }
-      
-
+                quarter[3][++quarter[3][0]] = i;
+                pos = 3;
+         //       std::cout << "Get pos" << pos << std::endl;
+                }     
+                
+                
+            }
+    
         double d_min = std::numeric_limits<double>::max();
         double d_max = -1;
+        i = 0;
+        int end_loop = 4;
+        if(!need_new_qurant){
+            i = pos;
+            end_loop = pos + 1;
+        }
+  //      std::cout << "Pos" << pos << " " << quarter[pos][0] << std::endl; 
+       
+        for(; i < end_loop ; i++){
 
-        for(int i = 0 ; i < 4 ; i++){
-
-            if(quarter[i].size() == 0){
+            if(quarter[i][0] == 0){
+               
                 continue;
             }
-            else if(quarter[i].size() == 1){
+            else if(quarter[i][0] == 1){
                 double dis = l.calculate_distance((*traj)[quarter[i][0]]);
                 d_min = std::min(d_min,dis);
                 d_max = std::max(d_max,dis);
             }
-            else if(quarter[i].size() > 1) {
-
+            else if(quarter[i][0] >= 1) {
+              
                 double min_x = std::numeric_limits<double>::max(),min_y = std::numeric_limits<double>::max();
                 double max_x = -1,max_y = -1;
                 Line min_ang_line,max_ang_line;
-                bool first = true;
+                int k = 1;
+                if(!first[pos]){
+                    k = quarter[i][0];
+                }
 
-                for(auto item:quarter[i]){
+                for(; k <= quarter[i][0]; k++){
 
-                    Point pt = (*traj)[item];
+                    Point pt = (*traj)[quarter[i][k]];
                     min_x = std::min(min_x,pt.x);
                     min_y = std::min(min_y,pt.y);
                     max_x = std::max(max_x,pt.x);
                     max_y = std::max(max_y,pt.y);
-                    if(first){
-                        min_ang_line = Line{(*traj)[start],(*traj)[item]};
-                        max_ang_line = Line{(*traj)[start],(*traj)[item]};
-                        first = false;
+                    if(first[pos]){
+                        min_ang_line = Line{(*traj)[start],(*traj)[quarter[i][k]]};
+                        max_ang_line = Line{(*traj)[start],(*traj)[quarter[i][k]]};
+                        first[pos] = false;
                     }
                     else{
-                        Line temp_line = Line{(*traj)[start],(*traj)[item]};
+                        Line temp_line = Line{(*traj)[start],(*traj)[quarter[i][k]]};
 
                         if(temp_line.angle() > max_ang_line.angle()){
                             max_ang_line = temp_line;
@@ -188,8 +235,10 @@ private:
                 d_min = std::max(d_min,std::min(min_u,min_l));
                 d_min = std::max(d_min,max_corner);
             }
-        }
 
+        }
+        if(need_new_qurant)
+            need_new_qurant = false;
 
         return {d_min,d_max};
     }

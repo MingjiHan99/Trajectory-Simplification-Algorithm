@@ -22,8 +22,10 @@ class Point{
         :longitude{longitude_},latitude{latitude_},t{t_}{
 
             x = RADIUS * (longitude / 360.0) * 2.0 * acos(-1.0);
-            double theta = acos(-1.0) / 4.0 + (latitude / 2.0) / 360.0 * 2.0 * acos(-1.0);          
+            double theta = acos(-1.0) / 4.0 + abs(latitude / 2.0) / 360.0 * 2.0 * acos(-1.0);          
             y = RADIUS * log(tan(theta));
+             x =  ((20037508.3427892 *2.0 /360.0) * (180 + longitude));
+             y =  ((20037508.3427892 * 2.0/180.0) * (90 - latitude));
     }
 
     double distance(const Point& rhs){
