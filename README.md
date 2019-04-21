@@ -49,3 +49,8 @@ It includes the average compress ratio and running time of program.
 ![image](https://github.com/Hannnnnn/Trajectory-Compression-Algorithm/blob/dev/image/2.png)
 #### Different error bound on three dataset (compression ratio)
 ![image](https://github.com/Hannnnnn/Trajectory-Compression-Algorithm/blob/dev/image/3.png)
+
+### Conclusion
+1. The OPERB algorithm is a efficient trajectory simplication algorithm. However the improvement compared with DP is not obvious when error bound is large.
+2. The aggressive approach can imporve the compression ratio when error bound is small.
+3. The proof in OPERB paper is not conviencing (magic number).
