@@ -43,7 +43,9 @@ You will get result.txt in src folder after the program is done.
 It includes the average compress ratio and running time of program. 
 
 ### Result
-
+#### Fixed error bound,different point size
 ![image](https://github.com/Hannnnnn/Trajectory-Compression-Algorithm/blob/dev/image/1.png)
+#### Different error bound on three dataset (time)
 ![image](https://github.com/Hannnnnn/Trajectory-Compression-Algorithm/blob/dev/image/2.png)
+#### Different error bound on three dataset (compression ratio)
 ![image](https://github.com/Hannnnnn/Trajectory-Compression-Algorithm/blob/dev/image/3.png)
