@@ -47,7 +47,7 @@ int main(int argc,char *argv[]){
     for(int i = 0 ; i < size; i++){
         Trajectory<Point>* traj = new Trajectory<Point>;
 
-        std::string file_name = "../dataset/taxi_clean/A000" + std::to_string(i);
+        std::string file_name = "../dataset/geo_clean/" + std::to_string(i);
         freopen(file_name.c_str(),"r",stdin);
         int count = 0;
         while(scanf("%lf %lf %lf",&tt,&ty,&tx) == 3){
@@ -79,7 +79,7 @@ int main(int argc,char *argv[]){
     double end_time = clock();
 
     averge_rate /= size;
-    freopen("result.txt","w",stdout);
+    freopen("result2.txt","w",stdout);
     
     std::cout << "Error Bound: " << error_bound << "m" << std::endl;
     std::cout << "Average Compression Ratio: " << 100.0 - averge_rate * 100 << "\%" << std::endl;
